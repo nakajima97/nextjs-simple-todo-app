@@ -1,5 +1,11 @@
+## APIリポジトリ
+https://github.com/nakajima97/fastapi-simple-todo-app
+
 ## versions
 - Node.js 22.4.1
+
+## setup
+`yarn`
 
 ## format
 check  
@@ -9,15 +15,15 @@ fix
 `yarn biome format --write ./src`
 
 ## lint
-check
+check  
 `yarn biome lint ./src`
 
 fix  
 `yarn biome lint --write ./src`
 
 ## format & lint
-check
+check  
 `yarn biome check ./src`
 
-fix
+fix  
 `yarn biome check --write ./src`
