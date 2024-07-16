@@ -8,12 +8,14 @@ import {
   Checkbox,
   TextField,
   Button,
+	IconButton,
 } from '@mui/material';
+import DoneIcon from '@mui/icons-material/Done';
 
 const tasks = [
-  { id: 1, title: '買い物に行く', completed: false },
-  { id: 2, title: 'レポートを書く', completed: true },
-  { id: 3, title: '会議の準備', completed: false },
+  { id: 1, title: '買い物に行く', description: 'スーパーに買い物に行く' },
+  { id: 2, title: 'レポートを書く', description: 'レポートを提出する' },
+  { id: 3, title: '会議の準備', description: '会議資料を作成する' },
 ];
 
 const TaskList = () => {
@@ -25,14 +27,11 @@ const TaskList = () => {
       <Grid item xs={12}>
         <List>
           {tasks.map((task) => (
-            <ListItem key={task.id}>
-              <Checkbox
-                checked={task.completed}
-                onChange={() => {}} // TODO: タスク完了状態の更新処理
-              />
+            <ListItem key={task.id} sx={{display: 'flex', gap: 2}}>
+							<IconButton aria-label='finish task'><DoneIcon /></IconButton>
               <ListItemText
                 primary={task.title}
-                secondary={task.completed ? '完了' : '未完了'}
+                secondary={task.description}
               />
             </ListItem>
           ))}
