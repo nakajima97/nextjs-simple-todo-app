@@ -1,13 +1,6 @@
 import { Box, Button, Container, CssBaseline } from '@mui/material';
-import { useRouter } from 'next/router';
 
 export default function Home() {
-	const router = useRouter();
-
-	const handleLogin = () => {
-		router.push('/task');
-	};
-
 	return (
 		<Container component="main" maxWidth="xs">
 			<CssBaseline />
@@ -19,11 +12,7 @@ export default function Home() {
 					alignItems: 'center',
 				}}
 			>
-				<Box sx={{ mt: 1 }}>
-					<Button onClick={handleLogin} variant="contained">
-						ログイン
-					</Button>
-				</Box>
+				<Box>タスク一覧</Box>
 			</Box>
 		</Container>
 	);
