@@ -1,16 +1,15 @@
 import DoneIcon from '@mui/icons-material/Done';
 import {
 	Button,
-	Checkbox,
 	Grid,
 	IconButton,
 	List,
 	ListItem,
 	ListItemText,
-	TextField,
 	Typography,
 } from '@mui/material';
 import React from 'react';
+import { CreateTaskDialog } from '@/feature/components/CreateTaskDialog';
 
 const tasks = [
 	{ id: 1, title: '買い物に行く', description: 'スーパーに買い物に行く' },
@@ -19,7 +18,12 @@ const tasks = [
 ];
 
 const TaskList = () => {
-	return (
+	const [open, setOpen] = React.useState(false);
+	const handleShowDialog = () => {
+		setOpen(true);
+	};
+
+	return (<>
 		<Grid container spacing={2} p={2}>
 			<Grid item xs={12}>
 				<Typography variant="h4">タスク一覧</Typography>
@@ -37,9 +41,11 @@ const TaskList = () => {
 				</List>
 			</Grid>
 			<Grid item xs={12}>
-				<Button variant="contained">タスクを追加する</Button>
+				<Button variant="contained" onClick={handleShowDialog}>タスクを追加する</Button>
 			</Grid>
 		</Grid>
+		<CreateTaskDialog open={open} handleClose={() => {setOpen(false)}} />
+		</>
 	);
 };
 
