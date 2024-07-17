@@ -54,8 +54,8 @@ export const CreateTaskDialog = ({ open, handleClose }: Props) => {
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Cancel</Button>
-				<Button type="submit">Subscribe</Button>
+				<Button onClick={handleClose}>キャンセル</Button>
+				<Button type="submit">追加</Button>
 			</DialogActions>
 		</Dialog>
 	);
