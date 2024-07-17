@@ -1,3 +1,4 @@
+import { CreateTaskDialog } from '@/feature/components/CreateTaskDialog';
 import DoneIcon from '@mui/icons-material/Done';
 import {
 	Button,
@@ -9,7 +10,6 @@ import {
 	Typography,
 } from '@mui/material';
 import React from 'react';
-import { CreateTaskDialog } from '@/feature/components/CreateTaskDialog';
 
 const tasks = [
 	{ id: 1, title: '買い物に行く', description: 'スーパーに買い物に行く' },
@@ -23,28 +23,39 @@ const TaskList = () => {
 		setOpen(true);
 	};
 
-	return (<>
-		<Grid container spacing={2} p={2}>
-			<Grid item xs={12}>
-				<Typography variant="h4">タスク一覧</Typography>
+	return (
+		<>
+			<Grid container spacing={2} p={2}>
+				<Grid item xs={12}>
+					<Typography variant="h4">タスク一覧</Typography>
+				</Grid>
+				<Grid item xs={12}>
+					<List>
+						{tasks.map((task) => (
+							<ListItem key={task.id} sx={{ display: 'flex', gap: 2 }}>
+								<IconButton aria-label="finish task">
+									<DoneIcon />
+								</IconButton>
+								<ListItemText
+									primary={task.title}
+									secondary={task.description}
+								/>
+							</ListItem>
+						))}
+					</List>
+				</Grid>
+				<Grid item xs={12}>
+					<Button variant="contained" onClick={handleShowDialog}>
+						タスクを追加する
+					</Button>
+				</Grid>
 			</Grid>
-			<Grid item xs={12}>
-				<List>
-					{tasks.map((task) => (
-						<ListItem key={task.id} sx={{ display: 'flex', gap: 2 }}>
-							<IconButton aria-label="finish task">
-								<DoneIcon />
-							</IconButton>
-							<ListItemText primary={task.title} secondary={task.description} />
-						</ListItem>
-					))}
-				</List>
-			</Grid>
-			<Grid item xs={12}>
-				<Button variant="contained" onClick={handleShowDialog}>タスクを追加する</Button>
-			</Grid>
-		</Grid>
-		<CreateTaskDialog open={open} handleClose={() => {setOpen(false)}} />
+			<CreateTaskDialog
+				open={open}
+				handleClose={() => {
+					setOpen(false);
+				}}
+			/>
 		</>
 	);
 };
