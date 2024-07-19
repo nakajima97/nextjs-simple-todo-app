@@ -1,5 +1,6 @@
 import { Box, Button, Container, CssBaseline } from '@mui/material';
 import { useRouter } from 'next/router';
+import Link from 'next/link'
 
 export default function Home() {
 	const router = useRouter();
@@ -23,6 +24,9 @@ export default function Home() {
 					<Button onClick={handleLogin} variant="contained">
 						ログイン
 					</Button>
+				</Box>
+				<Box sx={{ mt: 2 }}>
+					<Link href='/register'>または新規登録</Link>
 				</Box>
 			</Box>
 		</Container>
