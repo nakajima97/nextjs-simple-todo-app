@@ -1,11 +1,11 @@
-import { type FirebaseApp, initializeApp } from "firebase/app";
-import { type Auth, type UserCredential, getAuth } from "firebase/auth";
-import { createContext, useState } from "react";
+import { type FirebaseApp, initializeApp } from 'firebase/app';
+import { type Auth, type UserCredential, getAuth } from 'firebase/auth';
+import { createContext, useState } from 'react';
 
 type UserContextType = {
-  user: UserCredential | null;
-  setUser: (user: UserCredential | null) => void;
-  app: FirebaseApp | null;
+	user: UserCredential | null;
+	setUser: (user: UserCredential | null) => void;
+	app: FirebaseApp | null;
 };
 
 const firebaseConfig = {
@@ -19,20 +19,20 @@ const firebaseConfig = {
 };
 
 const AuthContext = createContext<UserContextType>({
-  user: null,
-  setUser: () => { },
-  app: null
+	user: null,
+	setUser: () => {},
+	app: null,
 });
 
 const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<UserCredential | null>(null);
-  const app = initializeApp(firebaseConfig);
+	const [user, setUser] = useState<UserCredential | null>(null);
+	const app = initializeApp(firebaseConfig);
 
-  return (
-    <AuthContext.Provider value={{ user, setUser, app }}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
+	return (
+		<AuthContext.Provider value={{ user, setUser, app }}>
+			{children}
+		</AuthContext.Provider>
+	);
+};
 
 export { AuthContext, FirebaseProvider };

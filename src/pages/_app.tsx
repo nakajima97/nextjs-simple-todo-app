@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }: AppProps) {
 		<AppCacheProvider>
 			<FirebaseProvider>
 				<Component {...pageProps} />
-				</FirebaseProvider>
+			</FirebaseProvider>
 		</AppCacheProvider>
 	);
 }
