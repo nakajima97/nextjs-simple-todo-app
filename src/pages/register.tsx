@@ -1,26 +1,51 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import { AuthContext } from '@/contexts/firebaseProvider';
+import { initializeFirebase } from '@/libs/firebase';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import Link from 'next/link'
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+import { useContext, useState } from 'react';
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { setUser, app } = useContext(AuthContext);
+
+  const handleSubmit = async() => {
     // TODO: サインアップの機能を実装する
+    try {
+      if (!app) {
+        throw new Error('Firebase App not initialized');
+      }
+      const auth = getAuth(app);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      setUser(userCredential);
+      console.log('サインアップに成功しました');
+    } catch (error: unknown) {
+      console.error('サインアップに失敗しました');
+      console.error({error});
+    }
   };
 
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  }
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  }
+
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -37,7 +62,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
              新規登録
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -47,6 +72,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={handleEmailChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -58,14 +84,16 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={handlePasswordChange}
                 />
               </Grid>
             </Grid>
             <Button
-              type="submit"
+              type="button"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleSubmit}
             >
                登録する
             </Button>
@@ -79,6 +107,5 @@ export default function SignUp() {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 }
