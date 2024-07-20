@@ -30,5 +30,11 @@ jobs:
       - name: yarn list
         run: yarn list
 
+      - name: pwd
+        run: pwd
+
+      - name: ls
+        run: ls
+
       - name: Run Test
         run: yarn test
