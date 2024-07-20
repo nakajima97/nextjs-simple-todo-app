@@ -18,4 +18,6 @@ jobs:
       - name: test
         run: |
           yarn
+          pwd
+          ls -a
           yarn test
