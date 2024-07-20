@@ -15,37 +15,17 @@ jobs:
         with:
           node-version: 22.x
 
-  install-dependencies:
-    needs: run-test # run-test ジョブが完了するまで待機
-    runs-on: ubuntu-latest
-    steps:
       - name: Install dependencies
-        run: yarn
+        run: yarn install
 
-  yarn-list:
-    needs: install-dependencies # install-dependencies ジョブが完了するまで待機
-    runs-on: ubuntu-latest
-    steps:
       - name: yarn list
         run: yarn list
 
-  pwd:
-    needs: yarn-list # yarn-list ジョブが完了するまで待機
-    runs-on: ubuntu-latest
-    steps:
       - name: pwd
         run: pwd
 
-  ls:
-    needs: pwd # pwd ジョブが完了するまで待機
-    runs-on: ubuntu-latest
-    steps:
       - name: ls
         run: ls -la
 
-  run-test:
-    needs: ls # ls ジョブが完了するまで待機
-    runs-on: ubuntu-latest
-    steps:
       - name: Run Test
         run: yarn test
