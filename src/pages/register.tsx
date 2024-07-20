@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 import { useContext, useState } from 'react';
 
 export default function SignUp() {
@@ -20,6 +21,8 @@ export default function SignUp() {
 	const [password, setPassword] = useState('');
 
 	const { setUser, app } = useContext(AuthContext);
+
+  const router = useRouter()
 
 	const handleSubmit = async () => {
 		// TODO: サインアップの機能を実装する
@@ -35,6 +38,7 @@ export default function SignUp() {
 			);
 			setUser(userCredential);
 			console.log('サインアップに成功しました');
+      router.push('/task')
 		} catch (error: unknown) {
 			console.error('サインアップに失敗しました');
 			console.error({ error });
