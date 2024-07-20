@@ -15,17 +15,7 @@ jobs:
         with:
           node-version: 22.x
 
-      - name: Install dependencies
-        run: yarn install
-
-      - name: yarn list
-        run: yarn list
-
-      - name: pwd
-        run: pwd
-
-      - name: ls
-        run: ls -la
-
-      - name: Run Test
-        run: yarn test
+      - name: test
+        run: |
+          yarn
+          yarn test
