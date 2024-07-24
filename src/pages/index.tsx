@@ -30,7 +30,7 @@ export default function Home() {
 				}}
 			>
 				<Typography component="h1" variant="h5">
-					Sign in
+					ログイン
 				</Typography>
 				<Box>
 					<TextField
@@ -55,7 +55,7 @@ export default function Home() {
 					/>
 					<FormControlLabel
 						control={<Checkbox value="remember" color="primary" />}
-						label="Remember me"
+						label="ログイン情報を記憶する"
 					/>
 					<Button
 						type="button"
@@ -64,7 +64,7 @@ export default function Home() {
 						sx={{ mt: 3, mb: 2 }}
 						onClick={handleLogin}
 					>
-						Sign In
+						ログイン
 					</Button>
 					<Grid container>
 						<Grid item xs>
