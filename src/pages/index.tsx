@@ -11,13 +11,39 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState, useContext } from 'react';
+import { AuthContext } from '@/contexts/firebaseProvider';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 
 export default function Home() {
 	const router = useRouter();
 
+	const { app } = useContext(AuthContext);
+
+	if (!app) {
+		return <div>Loading...</div>;
+	}
+	const auth = getAuth(app);
+
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+
 	const handleLogin = () => {
-		router.push('/task');
+		signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+			router.push('/task');
+		}).catch((error) => {
+			console.error('ログインに失敗しました');
+			console.error({ error });
+		});
 	};
+
+	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
+	}
+
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+	}
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -42,6 +68,7 @@ export default function Home() {
 						name="email"
 						autoComplete="email"
 						autoFocus
+						onChange={handleEmailChange}
 					/>
 					<TextField
 						margin="normal"
@@ -52,6 +79,7 @@ export default function Home() {
 						type="password"
 						id="password"
 						autoComplete="current-password"
+						onChange={handlePasswordChange}
 					/>
 					<FormControlLabel
 						control={<Checkbox value="remember" color="primary" />}
