@@ -18,7 +18,7 @@ import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 export default function Home() {
 	const router = useRouter();
 
-	const { app } = useContext(AuthContext);
+	const { app, setUser } = useContext(AuthContext);
 
 	if (!app) {
 		return <div>Loading...</div>;
@@ -30,6 +30,7 @@ export default function Home() {
 
 	const handleLogin = () => {
 		signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+			setUser(userCredential);
 			router.push('/task');
 		}).catch((error) => {
 			console.error('ログインに失敗しました');
