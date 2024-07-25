@@ -1,6 +1,6 @@
 import { type FirebaseApp, initializeApp } from 'firebase/app';
 import { type Auth, type UserCredential, getAuth } from 'firebase/auth';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 type UserContextType = {
 	user: UserCredential | null;
@@ -26,7 +26,11 @@ const AuthContext = createContext<UserContextType>({
 
 const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<UserCredential | null>(null);
-	const app = initializeApp(firebaseConfig);
+	const [app, setApp] = useState<FirebaseApp | null>(null);
+
+	useEffect(() => {
+		setApp(initializeApp(firebaseConfig));
+	}, []);
 
 	return (
 		<AuthContext.Provider value={{ user, setUser, app }}>
