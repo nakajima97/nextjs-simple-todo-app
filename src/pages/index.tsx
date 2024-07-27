@@ -1,3 +1,4 @@
+import { AuthContext } from '@/contexts/firebaseProvider';
 import {
 	Box,
 	Button,
@@ -9,16 +10,19 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState, useContext } from 'react';
-import { AuthContext } from '@/contexts/firebaseProvider';
-import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { useContext, useState } from 'react';
+
+import { getApp } from '@/libs/firebase';
 
 export default function Home() {
 	const router = useRouter();
 
-	const { app, setUser } = useContext(AuthContext);
+	const { setUser } = useContext(AuthContext);
+
+	const app = getApp();
 
 	if (!app) {
 		return <div>Loading...</div>;
@@ -29,22 +33,24 @@ export default function Home() {
 	const [password, setPassword] = useState('');
 
 	const handleLogin = () => {
-		signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-			setUser(userCredential);
-			router.push('/task');
-		}).catch((error) => {
-			console.error('ログインに失敗しました');
-			console.error({ error });
-		});
+		signInWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				setUser(userCredential);
+				router.push('/task');
+			})
+			.catch((error) => {
+				console.error('ログインに失敗しました');
+				console.error({ error });
+			});
 	};
 
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
-	}
+	};
 
 	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
-	}
+	};
 
 	return (
 		<Container component="main" maxWidth="xs">
