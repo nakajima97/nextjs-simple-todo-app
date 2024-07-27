@@ -1,4 +1,4 @@
-import { type FirebaseApp, initializeApp, getApp, getApps } from 'firebase/app';
+import { type FirebaseApp, getApp, getApps, initializeApp } from 'firebase/app';
 import { type Auth, type UserCredential, getAuth } from 'firebase/auth';
 import { createContext, useEffect, useState } from 'react';
 
