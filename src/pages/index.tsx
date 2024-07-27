@@ -15,10 +15,14 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '@/contexts/firebaseProvider';
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 
+import { getApp } from '@/libs/firebase';
+
 export default function Home() {
 	const router = useRouter();
 
-	const { app, setUser } = useContext(AuthContext);
+	const { setUser } = useContext(AuthContext);
+
+	const app = getApp();
 
 	if (!app) {
 		return <div>Loading...</div>;
