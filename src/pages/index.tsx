@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 import { getApp } from '@/libs/firebase';
+import { FirebaseError } from 'firebase/app';
 
 export default function Home() {
 	const [error, setError] = useState('');
@@ -41,8 +42,12 @@ export default function Home() {
 				setUser(userCredential);
 				router.push('/task');
 			})
-			.catch((error) => {
-				setError('ログインに失敗しました。');
+			.catch((error: FirebaseError) => {
+				if (error.code === 'auth/invalid-email') {
+					setError('メールアドレスまたはパスワードが無効です。');
+				} else {
+					setError('ログインに失敗しました。');
+				}
 			});
 	};
 
