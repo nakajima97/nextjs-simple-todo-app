@@ -62,6 +62,8 @@ export default function Home() {
 		setError('');
 	};
 
+	const canSubmit = email && password;
+
 	return (
 		<Container component="main" maxWidth="xs">
 			<Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
@@ -113,6 +115,7 @@ export default function Home() {
 						variant="contained"
 						sx={{ mt: 3, mb: 2 }}
 						onClick={handleLogin}
+						disabled={!canSubmit}
 					>
 						ログイン
 					</Button>
