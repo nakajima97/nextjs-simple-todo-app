@@ -1,4 +1,3 @@
-import { AuthContext } from '@/contexts/firebaseProvider';
 import {
 	Alert,
 	Box,
@@ -15,9 +14,10 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-
-import { getApp } from '@/libs/firebase';
 import type { FirebaseError } from 'firebase/app';
+
+import { AuthContext } from '@/contexts/firebaseProvider';
+import { getApp } from '@/libs/firebase';
 
 export default function Home() {
 	const [error, setError] = useState('');
