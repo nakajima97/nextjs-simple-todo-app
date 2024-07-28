@@ -1,5 +1,6 @@
 import { AuthContext } from '@/contexts/firebaseProvider';
 import {
+	Alert,
 	Box,
 	Button,
 	Checkbox,
@@ -7,6 +8,7 @@ import {
 	CssBaseline,
 	FormControlLabel,
 	Grid,
+	Snackbar,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -16,8 +18,10 @@ import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 import { getApp } from '@/libs/firebase';
+import type { FirebaseError } from 'firebase/app';
 
 export default function Home() {
+	const [error, setError] = useState('');
 	const router = useRouter();
 
 	const { setUser } = useContext(AuthContext);
@@ -38,9 +42,12 @@ export default function Home() {
 				setUser(userCredential);
 				router.push('/task');
 			})
-			.catch((error) => {
-				console.error('ログインに失敗しました');
-				console.error({ error });
+			.catch((error: FirebaseError) => {
+				if (error.code === 'auth/invalid-email') {
+					setError('メールアドレスまたはパスワードが無効です。');
+				} else {
+					setError('ログインに失敗しました。');
+				}
 			});
 	};
 
@@ -52,8 +59,17 @@ export default function Home() {
 		setPassword(e.target.value);
 	};
 
+	const handleClose = () => {
+		setError('');
+	};
+
 	return (
 		<Container component="main" maxWidth="xs">
+			<Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
+				<Alert severity="error" onClose={handleClose}>
+					{error}
+				</Alert>
+			</Snackbar>
 			<Box
 				sx={{
 					marginTop: 8,
