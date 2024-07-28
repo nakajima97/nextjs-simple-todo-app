@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 import { getApp } from '@/libs/firebase';
-import { FirebaseError } from 'firebase/app';
+import type { FirebaseError } from 'firebase/app';
 
 export default function SignUp() {
 	const [email, setEmail] = useState('');
@@ -32,25 +32,27 @@ export default function SignUp() {
 	const auth = getAuth(app);
 
 	const handleSubmit = () => {
-		createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-			setUser(userCredential);
-			router.push('/task');
-		}).catch((error: FirebaseError) => {
-			switch (error.code) {
-				case 'auth/invalid-email':
-					setError('メールアドレスが無効です。');
-					break;
-				case 'auth/missing-password':
-					setError('パスワードが無効です。');
-					break;
-				case "auth/email-already-in-use":
-					setError('メールアドレスが既に使用されています。');
-					break;
-				default:
-					setError('登録に失敗しました。');
-					break;
-			}
-		});
+		createUserWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				setUser(userCredential);
+				router.push('/task');
+			})
+			.catch((error: FirebaseError) => {
+				switch (error.code) {
+					case 'auth/invalid-email':
+						setError('メールアドレスが無効です。');
+						break;
+					case 'auth/missing-password':
+						setError('パスワードが無効です。');
+						break;
+					case 'auth/email-already-in-use':
+						setError('メールアドレスが既に使用されています。');
+						break;
+					default:
+						setError('登録に失敗しました。');
+						break;
+				}
+			});
 	};
 
 	const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +65,7 @@ export default function SignUp() {
 
 	const handleClose = () => {
 		setError('');
-	}
+	};
 
 	return (
 		<Container component="main" maxWidth="xs">
