@@ -1,13 +1,13 @@
 import { AuthContext } from '@/contexts/firebaseProvider';
-import { initializeFirebase } from '@/libs/firebase';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
+	Alert,
 	Avatar,
 	Box,
 	Button,
 	Container,
-	CssBaseline,
 	Grid,
+	Snackbar,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -16,33 +16,43 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
+import { getApp } from '@/libs/firebase';
+import type { FirebaseError } from 'firebase/app';
+
 export default function SignUp() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
 
-	const { setUser, app } = useContext(AuthContext);
+	const { setUser } = useContext(AuthContext);
 
 	const router = useRouter();
 
-	const handleSubmit = async () => {
-		// TODO: サインアップの機能を実装する
-		try {
-			if (!app) {
-				throw new Error('Firebase App not initialized');
-			}
-			const auth = getAuth(app);
-			const userCredential = await createUserWithEmailAndPassword(
-				auth,
-				email,
-				password,
-			);
-			setUser(userCredential);
-			console.log('サインアップに成功しました');
-			router.push('/task');
-		} catch (error: unknown) {
-			console.error('サインアップに失敗しました');
-			console.error({ error });
-		}
+	const app = getApp();
+	const auth = getAuth(app);
+
+	const handleSubmit = () => {
+		createUserWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				setUser(userCredential);
+				router.push('/task');
+			})
+			.catch((error: FirebaseError) => {
+				switch (error.code) {
+					case 'auth/invalid-email':
+						setError('メールアドレスが無効です。');
+						break;
+					case 'auth/missing-password':
+						setError('パスワードが無効です。');
+						break;
+					case 'auth/email-already-in-use':
+						setError('メールアドレスが既に使用されています。');
+						break;
+					default:
+						setError('登録に失敗しました。');
+						break;
+				}
+			});
 	};
 
 	const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,9 +63,17 @@ export default function SignUp() {
 		setPassword(event.target.value);
 	};
 
+	const handleClose = () => {
+		setError('');
+	};
+
 	return (
 		<Container component="main" maxWidth="xs">
-			<CssBaseline />
+			<Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
+				<Alert severity="error" onClose={handleClose}>
+					{error}
+				</Alert>
+			</Snackbar>
 			<Box
 				sx={{
 					marginTop: 8,

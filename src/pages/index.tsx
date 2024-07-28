@@ -5,7 +5,6 @@ import {
 	Button,
 	Checkbox,
 	Container,
-	CssBaseline,
 	FormControlLabel,
 	Grid,
 	Snackbar,
