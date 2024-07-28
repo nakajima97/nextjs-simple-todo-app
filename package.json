@@ -11,7 +11,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "e2e": "playwright test",
-    "biome:check": "biome check --write ./src"
+    "bc": "biome check --write ./src"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
