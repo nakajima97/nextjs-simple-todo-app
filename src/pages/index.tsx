@@ -10,11 +10,11 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
+import type { FirebaseError } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import type { FirebaseError } from 'firebase/app';
 
 import { AuthContext } from '@/contexts/firebaseProvider';
 import { getApp } from '@/libs/firebase';
