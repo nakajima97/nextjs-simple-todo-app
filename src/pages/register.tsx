@@ -67,6 +67,8 @@ export default function SignUp() {
 		setError('');
 	};
 
+	const canSubmit = email && password;
+
 	return (
 		<Container component="main" maxWidth="xs">
 			<Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
@@ -120,6 +122,7 @@ export default function SignUp() {
 						variant="contained"
 						sx={{ mt: 3, mb: 2 }}
 						onClick={handleSubmit}
+						disabled={!canSubmit}
 					>
 						登録する
 					</Button>
