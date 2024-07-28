@@ -1,4 +1,3 @@
-import { AuthContext } from '@/contexts/firebaseProvider';
 import {
 	Alert,
 	Box,
@@ -11,13 +10,14 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
+import type { FirebaseError } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
+import { AuthContext } from '@/contexts/firebaseProvider';
 import { getApp } from '@/libs/firebase';
-import type { FirebaseError } from 'firebase/app';
 
 export default function Home() {
 	const [error, setError] = useState('');
@@ -61,6 +61,8 @@ export default function Home() {
 	const handleClose = () => {
 		setError('');
 	};
+
+	const canSubmit = email && password;
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -113,6 +115,7 @@ export default function Home() {
 						variant="contained"
 						sx={{ mt: 3, mb: 2 }}
 						onClick={handleLogin}
+						disabled={!canSubmit}
 					>
 						ログイン
 					</Button>
