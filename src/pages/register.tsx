@@ -1,5 +1,4 @@
 import { AuthContext } from '@/contexts/firebaseProvider';
-import { initializeFirebase } from '@/libs/firebase';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
 	Avatar,
@@ -16,20 +15,21 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
+import { getApp } from '@/libs/firebase';
+
 export default function SignUp() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const { setUser, app } = useContext(AuthContext);
+	const { setUser } = useContext(AuthContext);
 
 	const router = useRouter();
+
+	const app = getApp();
 
 	const handleSubmit = async () => {
 		// TODO: サインアップの機能を実装する
 		try {
-			if (!app) {
-				throw new Error('Firebase App not initialized');
-			}
 			const auth = getAuth(app);
 			const userCredential = await createUserWithEmailAndPassword(
 				auth,
@@ -37,10 +37,8 @@ export default function SignUp() {
 				password,
 			);
 			setUser(userCredential);
-			console.log('サインアップに成功しました');
 			router.push('/task');
 		} catch (error: unknown) {
-			console.error('サインアップに失敗しました');
 			console.error({ error });
 		}
 	};
