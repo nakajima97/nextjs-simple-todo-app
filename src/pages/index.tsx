@@ -43,7 +43,6 @@ export default function Home() {
 			})
 			.catch((error) => {
 				setError('ログインに失敗しました。');
-				console.error({ error });
 			});
 	};
 
