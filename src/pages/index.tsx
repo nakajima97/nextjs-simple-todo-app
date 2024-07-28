@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 import { getApp } from '@/libs/firebase';
-import { FirebaseError } from 'firebase/app';
+import type { FirebaseError } from 'firebase/app';
 
 export default function Home() {
 	const [error, setError] = useState('');
@@ -60,18 +60,16 @@ export default function Home() {
 	};
 
 	const handleClose = () => {
-		setError('')
-	}
+		setError('');
+	};
 
 	return (
 		<Container component="main" maxWidth="xs">
-			<Snackbar 
-				open={!!error}
-				autoHideDuration={6000}
-				onClose={handleClose}
-			>
-				<Alert severity="error" onClose={handleClose}>{error}</Alert>
-				</Snackbar>
+			<Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
+				<Alert severity="error" onClose={handleClose}>
+					{error}
+				</Alert>
+			</Snackbar>
 			<Box
 				sx={{
 					marginTop: 8,
