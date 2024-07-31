@@ -37,7 +37,7 @@ const TaskList = () => {
 
 	return (
 		<>
-			<Header title='タスク一覧'/>
+			<Header title="タスク一覧" />
 			<Grid container spacing={2} p={2}>
 				<Grid item xs={12}>
 					<List>
