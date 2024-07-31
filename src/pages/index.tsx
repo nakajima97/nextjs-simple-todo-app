@@ -36,10 +36,10 @@ export default function Home() {
 	const user = auth.currentUser;
 
 	useEffect(() => {
-    if (user) {
-      router.push('/task');
-    }
-  }, [user]);
+		if (user) {
+			router.push('/task');
+		}
+	}, [user, router]);
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');

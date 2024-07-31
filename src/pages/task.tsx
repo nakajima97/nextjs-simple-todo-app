@@ -33,10 +33,10 @@ const TaskList = () => {
 	console.log({ user });
 
 	useEffect(() => {
-    if (!user) {
-      router.push('/'); // クライアントサイドでリダイレクト
-    }
-  }, [user]);
+		if (!user) {
+			router.push('/'); // クライアントサイドでリダイレクト
+		}
+	}, [user, router]);
 
 	const handleShowDialog = () => {
 		setOpen(true);

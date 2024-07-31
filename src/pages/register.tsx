@@ -35,10 +35,10 @@ export default function SignUp() {
 	const user = auth.currentUser;
 
 	useEffect(() => {
-    if (user) {
-      router.push('/task');
-    }
-  }, [user]);
+		if (user) {
+			router.push('/task');
+		}
+	}, [user, router]);
 
 	const handleSubmit = () => {
 		createUserWithEmailAndPassword(auth, email, password)
