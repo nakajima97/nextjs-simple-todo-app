@@ -1,4 +1,5 @@
 import { CreateTaskDialog } from '@/feature/components/CreateTaskDialog';
+import { Header } from '@/feature/components/Header';
 import useFirebase from '@/hooks/useFirebase';
 import DoneIcon from '@mui/icons-material/Done';
 import {
@@ -36,10 +37,8 @@ const TaskList = () => {
 
 	return (
 		<>
+			<Header title='タスク一覧'/>
 			<Grid container spacing={2} p={2}>
-				<Grid item xs={12}>
-					<Typography variant="h4">タスク一覧</Typography>
-				</Grid>
 				<Grid item xs={12}>
 					<List>
 						{tasks.map((task) => (
