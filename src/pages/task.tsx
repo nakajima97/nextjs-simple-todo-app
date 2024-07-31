@@ -1,4 +1,6 @@
+import { AuthContext } from '@/contexts/firebaseProvider';
 import { CreateTaskDialog } from '@/feature/components/CreateTaskDialog';
+import { getApp } from '@/libs/firebase';
 import DoneIcon from '@mui/icons-material/Done';
 import {
 	Button,
@@ -9,7 +11,10 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material';
-import React from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 
 const tasks = [
 	{ id: 1, title: '買い物に行く', description: 'スーパーに買い物に行く' },
@@ -19,6 +24,20 @@ const tasks = [
 
 const TaskList = () => {
 	const [open, setOpen] = React.useState(false);
+	const router = useRouter();
+
+	const app = getApp();
+	const auth = getAuth(app);
+
+	const user = auth.currentUser;
+	console.log({ user });
+
+	useEffect(() => {
+		if (!user) {
+			router.push('/'); // クライアントサイドでリダイレクト
+		}
+	}, [user, router]);
+
 	const handleShowDialog = () => {
 		setOpen(true);
 	};

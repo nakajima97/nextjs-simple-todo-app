@@ -14,7 +14,7 @@ import {
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { getApp } from '@/libs/firebase';
 import type { FirebaseError } from 'firebase/app';
@@ -30,6 +30,15 @@ export default function SignUp() {
 
 	const app = getApp();
 	const auth = getAuth(app);
+
+	// ログイン済みの場合はタスク一覧画面にリダイレクト
+	const user = auth.currentUser;
+
+	useEffect(() => {
+		if (user) {
+			router.push('/task');
+		}
+	}, [user, router]);
 
 	const handleSubmit = () => {
 		createUserWithEmailAndPassword(auth, email, password)

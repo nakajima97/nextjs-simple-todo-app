@@ -14,7 +14,7 @@ import type { FirebaseError } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '@/contexts/firebaseProvider';
 import { getApp } from '@/libs/firebase';
@@ -23,14 +23,23 @@ export default function Home() {
 	const [error, setError] = useState('');
 	const router = useRouter();
 
-	const { setUser } = useContext(AuthContext);
-
 	const app = getApp();
 
+	// 準備中はローディング表示
 	if (!app) {
 		return <div>Loading...</div>;
 	}
+
+	// ログイン済みの場合はタスク一覧画面にリダイレクト
 	const auth = getAuth(app);
+
+	const user = auth.currentUser;
+
+	useEffect(() => {
+		if (user) {
+			router.push('/task');
+		}
+	}, [user, router]);
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -38,7 +47,6 @@ export default function Home() {
 	const handleLogin = () => {
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
-				setUser(userCredential);
 				router.push('/task');
 			})
 			.catch((error: FirebaseError) => {
