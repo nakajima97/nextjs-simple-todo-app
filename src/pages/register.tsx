@@ -15,8 +15,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import type { FirebaseError } from 'firebase/app';
 import useFirebase from '@/hooks/useFirebase';
+import type { FirebaseError } from 'firebase/app';
 
 export default function SignUp() {
 	const [email, setEmail] = useState('');
