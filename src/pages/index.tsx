@@ -11,19 +11,17 @@ import {
 	Typography,
 } from '@mui/material';
 import type { FirebaseError } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { AuthContext } from '@/contexts/firebaseProvider';
-import { getApp } from '@/libs/firebase';
+import useFirebase from '@/hooks/useFirebase';
 
 export default function Home() {
 	const [error, setError] = useState('');
 	const router = useRouter();
-
-	const app = getApp();
+	const { app, auth, user } = useFirebase();
 
 	// 準備中はローディング表示
 	if (!app) {
@@ -31,10 +29,6 @@ export default function Home() {
 	}
 
 	// ログイン済みの場合はタスク一覧画面にリダイレクト
-	const auth = getAuth(app);
-
-	const user = auth.currentUser;
-
 	useEffect(() => {
 		if (user) {
 			router.push('/task');

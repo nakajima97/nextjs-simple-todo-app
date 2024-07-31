@@ -1,6 +1,5 @@
-import { AuthContext } from '@/contexts/firebaseProvider';
 import { CreateTaskDialog } from '@/feature/components/CreateTaskDialog';
-import { getApp } from '@/libs/firebase';
+import useFirebase from '@/hooks/useFirebase';
 import DoneIcon from '@mui/icons-material/Done';
 import {
 	Button,
@@ -11,8 +10,6 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
@@ -25,12 +22,7 @@ const tasks = [
 const TaskList = () => {
 	const [open, setOpen] = React.useState(false);
 	const router = useRouter();
-
-	const app = getApp();
-	const auth = getAuth(app);
-
-	const user = auth.currentUser;
-	console.log({ user });
+	const { user } = useFirebase();
 
 	useEffect(() => {
 		if (!user) {
